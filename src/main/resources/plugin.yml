@@ -1,0 +1,30 @@
+name: MineMonitor
+version: 1.0-SNAPSHOT
+author: David Out
+main: com.minemonitor.Main
+website: minemonitor.net
+commands:
+  minemonitor:
+    description: The main command to edit the plugin.
+
+permissions:
+  minemonitor.*:
+    description: Allows you to do everything.
+    default: op
+    children:
+      minemonitor.setup: true
+      minemonitor.config: true
+      minemonitor.authenticate: true
+  minemonitor.connection:
+    description: Allows the user to manage the connection to the server.
+  minemonitor.setup:
+    description: Allows the user to setup the plugin.
+  minemonitor.config.edit:
+    description: Allows the user to edit the config.
+    children:
+      minemonitor.config.see: true
+  minemonitor.config.see:
+    description: Allows the user to see the config.
+  minemonitor.authenticate:
+    description: Allows the user to add the server to his profile.
+

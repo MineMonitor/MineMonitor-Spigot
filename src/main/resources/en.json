@@ -1,0 +1,46 @@
+{
+  "name": "en",
+  "prefix": "&7[&bMineMonitor&7]",
+  "messages": {
+    "onEnable": "%prefix &7The System Monitor has been &aenabled&7.",
+    "onDisable": "%prefix &7The System Monitor has been &cdisabled&7.",
+    "onlyPlayer": "&cSorry but only players can use this command.",
+    "noPermission": "&cYou don't have permission.",
+    "commandUsage": "&cUse: &f%command",
+
+    "setup.runSetup": "&cThe setup first needs to be run before you can do anything else.",
+    "setup.failed": "&cOops, something went wrong while finishing the setup. Please try again later.",
+    "setup.finished": "%prefix &7Succesfully finished the setup.",
+
+    "error.loadConfig": "&cAn error occured while loading in the config please check the file.",
+    "error.saveConfig": "&cAn error occured while copying saving the config please check the file.",
+    "error.copyDefaultLanguage": "&cAn error occured while copying the default language file.",
+    "error.uri": "&cUnable to create an url from %uri%.",
+    "error.noUrl": "&cUrl to connect to MineMonitor is not specified please check the config.",
+    "error.couldNotCreateConnection": "&cCould not create a connection please check the connection config.",
+
+    "connection.tryConnect": "&7[&bMineMonitor&7] &7Trying to connect to %url.",
+    "connection.autoConnect": "&7Automatically try to reconnect when the connection is lost.",
+    "connection.connected": "&7[&bMineMonitor&7] &7Succesfully &aconnected &7to the MineMonitor server.",
+    "connection.disconnected": "&7[&bMineMonitor&7] &cDisconnected &7from the MineMonitor server.",
+
+    "connection.isConnected": "&aConnected",
+    "connection.notConnected": "&cNot connected",
+    "connection.ssl": "&7This option is required when server is pointing to main servers.",
+    "connection.editSetting": "&7Type the new %setting, type &ccancel &7to cancel.",
+    "connection.savedSetting": "%prefix &7Succesfully saved the settings.",
+
+    "setting.playTime": "Send the player's playtime to the dashboard",
+    "setting.tps": "Send the servers current tps to the dashboard.",
+    "setting.systemMonitor": "Send the servers current cpu and ram usage to the dashboard.",
+
+    "authenticate": "%prefix &7Go to the website and add the server to your&7 &7account with these credentials.",
+    "website.goTo": "Click to go to the website.",
+
+    "click.copy": "&7Click to copy.",
+
+    "enabled": "&aEnabled",
+    "disabled": "&cDisabled",
+    "number": "&cThis value must be a number."
+  }
+}
