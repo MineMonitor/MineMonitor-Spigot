@@ -1,7 +1,7 @@
 name: MineMonitor
 version: 1.0-SNAPSHOT
 author: David Out
-main: com.minemonitor.Main
+main: net.minemonitor.Main
 website: minemonitor.net
 commands:
   minemonitor:
