@@ -47,7 +47,6 @@ public class ConfigManager {
                     break;
                 case CONNECTION_CONFIG:
                     this.connection = fileManager.loadFile(ConnectionSettings.class, "connection");
-
                     if(this.connection.serverId != null) {
                         return;
                     }
@@ -59,7 +58,6 @@ public class ConfigManager {
             handleFileNotFoundException(type);
         } catch (Exception e) {
             Bukkit.getConsoleSender().sendMessage(MessageManager.getInstance().getMessage("error.loadConfig"));
-            e.printStackTrace();
         }
     }
 
@@ -89,14 +87,6 @@ public class ConfigManager {
                 fileManager.saveFile(this.connection, "connection");
                 break;
         }
-    }
-
-    public void setConnectionConfig(IConnectionSettings config) {
-        if(config.serverId == null) {
-            config.serverId = this.connection.serverId;
-        }
-
-        this.connection = config;
     }
 
     public void putEditSettings(ConnectionSetting settings, UUID uuid) {

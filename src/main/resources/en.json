@@ -17,7 +17,7 @@
     "error.copyDefaultLanguage": "&cAn error occured while copying the default language file.",
     "error.uri": "&cUnable to create an url from %uri%.",
     "error.noUrl": "&cUrl to connect to MineMonitor is not specified please check the config.",
-    "error.couldNotCreateConnection": "&cCould not create a connection please check the connection config.",
+    "error.couldNotCreateConnection": "&cCould not create a connection to the server.",
 
     "connection.tryConnect": "&7[&bMineMonitor&7] &7Trying to connect to %url.",
     "connection.autoConnect": "&7Automatically try to reconnect when the connection is lost.",

@@ -38,7 +38,7 @@ public class CMD_MineMonitor implements ICommand {
         }
 
         if(args.length == 0) {
-            commandSender.sendMessage(MessageManager.getInstance().getMessage(MessageKey.USE_COMMAND).replace("%command", "/minemonitor [settings, setup]"));
+            commandSender.sendMessage(MessageManager.getInstance().getMessage(MessageKey.USE_COMMAND).replace("%command", "/minemonitor [settings, setup, auth]"));
             return true;
         }
 
@@ -63,7 +63,7 @@ public class CMD_MineMonitor implements ICommand {
 
 
 
-        if(cmd.equalsIgnoreCase("authenticate")) {
+        if(cmd.equalsIgnoreCase("auth")) {
             if(!commandSender.hasPermission(Permissions.AUTHENTICATE.getPermission())) {
                 commandSender.sendMessage(MessageManager.getInstance().getMessage(MessageKey.NO_PERMISSION));
                 return false;
@@ -87,7 +87,7 @@ public class CMD_MineMonitor implements ICommand {
 
     @Override
     public List<String> autoComplete(CommandSender commandSender, String s, String[] args) {
-        List<String> possible = Arrays.asList("settings", "setup", "authenticate");
+        List<String> possible = Arrays.asList("settings", "setup", "auth");
 
         if(args.length == 0 || args[0] == null || args[0].isEmpty()) {
             return possible;

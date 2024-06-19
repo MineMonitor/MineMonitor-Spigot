@@ -1,7 +1,6 @@
 package net.minemonitor;
 
 import net.minemonitor.config.ConfigManager;
-import net.minemonitor.connection.ApiServerConnection;
 import net.minemonitor.message.MessageKey;
 import mcapi.davidout.manager.file.IFileManager;
 import mcapi.davidout.manager.file.json.JsonFileManager;
@@ -15,7 +14,6 @@ public class Main extends JavaPlugin {
 	private SetUp setup;
 
 
-	private ApiServerConnection connectionManager;
 	private ConfigManager configManager;
 	private IFileManager fileManager;
 
@@ -27,13 +25,10 @@ public class Main extends JavaPlugin {
 		try {
 			initializeManagers();
 			Bukkit.getConsoleSender().sendMessage(MessageManager.getInstance().getMessage(MessageKey.ON_ENABLE));
-			if(!MineMonitorApi.getInstance().getSetupManager().isInSetup()) {
-				this.connectionManager.connectToServer(this.configManager.getConnectionConfig());
-			}
 		} catch (Exception e) {
 			Bukkit.getConsoleSender().sendMessage("Error during plugin initialization: " + e.getMessage());
-			e.printStackTrace();
 			Bukkit.getPluginManager().disablePlugin(this);
+
 		}
 	}
 
@@ -46,26 +41,23 @@ public class Main extends JavaPlugin {
 		setup.createMessageManager();
 		fileManager = new JsonFileManager(getDataFolder());
 		configManager = new ConfigManager(fileManager);
-		connectionManager = new ApiServerConnection(
-				this.configManager.getConnectionConfig()
-		);
 
+		if(!MineMonitorApi.getInstance().getSetupManager().isInSetup()) {
+			Bukkit.getConsoleSender().sendMessage(MessageManager.getInstance().getMessage(MessageKey.CONNECTION_TRYCONNECT).replace("%url", getInstance().getConfigManager().getConnectionConfig().getWSSUrl()));
+			MineMonitorApi.getInstance().getConnectionManager().connect(Main.getInstance().getConfigManager().getConnectionConfig());
+		}
 	}
+
+
+
 
 
 	public static Main getInstance() {
 		return instance;
 	}
 
-	public ApiServerConnection getConnectionManager() {
-		return connectionManager;
-	}
-
 	public ConfigManager getConfigManager() {
 		return configManager;
 	}
 
-	public IFileManager getFileManager() {
-		return fileManager;
-	}
 }

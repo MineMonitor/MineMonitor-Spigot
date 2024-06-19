@@ -65,13 +65,13 @@ public class EditConfig implements Listener {
                     int number = getNumber(value);
                     if(number == -1) {
                         p.sendMessage(MessageManager.getInstance().getMessage(MessageKey.MUST_BE_NUMBER));
-                        break;
+                        return;
                     }
                     MineMonitorApi.getInstance().getSetupManager().getConnectionSettings().port = number;
                     break;
             }
 
-           MineMonitorApi.getInstance().getSetupManager().stopEditing(uuid);
+            MineMonitorApi.getInstance().getSetupManager().stopEditing(uuid);
             p.sendMessage(MessageManager.getInstance().getMessage(MessageKey.CONNECTION_SAVED_SETTING));
             Guis.SETUP_CONNECTION_GUI.openInventory(p);
             return;
@@ -85,17 +85,17 @@ public class EditConfig implements Listener {
                     break;
                 case PORT:
                     int number = getNumber(value);
-                    if(number == -1) {
+                    if (number <= 0) {
                         p.sendMessage(MessageManager.getInstance().getMessage(MessageKey.MUST_BE_NUMBER));
-                        break;
+                       return;
                     }
                     Main.getInstance().getConfigManager().getConnectionConfig().port = number;
                     Main.getInstance().getConfigManager().saveConfig(ConfigManager.ConfigType.CONNECTION_CONFIG);
-
+                    break;
             }
 
-            Main.getInstance().getConfigManager().removeEditing(uuid);
-            p.sendMessage(MessageManager.getInstance().getMessage(MessageKey.CONNECTION_SAVED_SETTING));
+                Main.getInstance().getConfigManager().removeEditing(uuid);
+                p.sendMessage(MessageManager.getInstance().getMessage(MessageKey.CONNECTION_SAVED_SETTING));
         } catch (Exception ex) {
             p.sendMessage(MessageManager.getInstance().getMessage(MessageKey.ERROR_SAVECONFIG));
         }

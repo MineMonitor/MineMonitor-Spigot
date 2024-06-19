@@ -128,19 +128,21 @@ public class SetupGui extends IGui {
         e.setCancelled(true);
 
         if(!p.hasPermission(Permissions.SETUP.getPermission())) {
-            p.closeInventory();;
+            p.closeInventory();
             return;
         }
+
+
 
         ISetupManager manager = MineMonitorApi.getInstance().getSetupManager();
         if(e.getCurrentItem().equals(save) && manager.readyToSave()) {
                 p.closeInventory();
-                manager.finishSetup(new Callback<>(() -> {
+                manager.finishSetup(new Callback<>((serverRegisteredDto) -> {
                     p.sendMessage(MessageManager.getInstance().getMessage(MessageKey.SETUP_FINISHED));
-                }, exception -> {
-                    exception.printStackTrace();
-                    p.sendMessage(MessageManager.getInstance().getMessage(MessageKey.SETUP_FAILED));
-                }));
+                    MineMonitorApi.getInstance().getConnectionManager().connect(Main.getInstance().getConfigManager().getConnectionConfig());
+                }, exception ->
+                    p.sendMessage(MessageManager.getInstance().getMessage(MessageKey.SETUP_FAILED))
+                ));
         }
 
         if(e.getCurrentItem().equals(acceptTerms)) {

@@ -1,7 +1,8 @@
 package net.minemonitor.gui;
 
 import net.minemonitor.Main;
-import net.minemonitor.connection.ApiServerConnection;
+import net.minemonitor.MineMonitorApi;
+import net.minemonitor.api.connection.IConnectionManager;
 import net.minemonitor.message.MessageKey;
 import net.minemonitor.plugin.Guis;
 import net.minemonitor.plugin.Permissions;
@@ -38,8 +39,8 @@ public class SettingsGui extends IGui {
 
     @Override
     public void updateInventory(Inventory inventory) {
-        IConnectionSettings connectionConfig = Main.getInstance().getConfigManager().getConnectionConfig();
-        ApiServerConnection manager = Main.getInstance().getConnectionManager();
+        IConnectionManager manager = MineMonitorApi.getInstance().getConnectionManager();
+        IConnectionSettings connectionConfig = manager.getConnectionSettings();
 
         connection = (manager.isConnected()) ?
                 ItemCreator.editItem(
@@ -90,6 +91,7 @@ public class SettingsGui extends IGui {
             return;
         }
 
+        IConnectionManager manager = MineMonitorApi.getInstance().getConnectionManager();
 
         if(e.getCurrentItem().equals(pluginOptions)) {
             p.closeInventory();
@@ -108,14 +110,16 @@ public class SettingsGui extends IGui {
                 return;
             }
 
-            if(Main.getInstance().getConnectionManager().isConnected()) {
-                Main.getInstance().getConnectionManager().disconnectFromServer();
-                updateInventory(e.getClickedInventory());
+            if(manager.isConnected()) {
+              MineMonitorApi.getInstance().getConnectionManager().disconnectWithPromise().whenFinished(aBoolean ->
+                  updateInventory(e.getClickedInventory())
+              );
                 return;
             }
 
-            Main.getInstance().getConnectionManager().connectToServer();
-            updateInventory(e.getClickedInventory());
+            MineMonitorApi.getInstance().getConnectionManager().connectWithPromise(Main.getInstance().getConfigManager().getConnectionConfig()).whenFinished(aBoolean -> {
+                updateInventory(e.getClickedInventory());
+            });
         }
 
     }

@@ -1,6 +1,8 @@
 package net.minemonitor.gui;
 
 import net.minemonitor.Main;
+import net.minemonitor.MineMonitorApi;
+import net.minemonitor.api.connection.IConnectionManager;
 import net.minemonitor.api.connection.config.ConnectionSetting;
 import net.minemonitor.config.ConfigManager;
 import net.minemonitor.message.MessageKey;
@@ -42,15 +44,17 @@ public class ConnectionSettingsGui extends IGui {
 
     @Override
     public void updateInventory(Inventory inventory) {
-        connected = (Main.getInstance().getConnectionManager().isConnected()) ?
+        IConnectionManager manager = MineMonitorApi.getInstance().getConnectionManager();
+
+        connected = (manager.isConnected()) ?
                 ItemCreator.editItem(
                         Items.getEnabledItem(true)
-                        , "&7Connection: ", Arrays.asList(MessageManager.getInstance().getMessage(MessageKey.CONNECTION_IS_CONNECTED))) :
+                        , "&7Connection: ", Collections.singletonList(MessageManager.getInstance().getMessage(MessageKey.CONNECTION_IS_CONNECTED))) :
                 ItemCreator.editItem(
                         Items.getEnabledItem(false)
-                        , "&7Connection: ", Arrays.asList(MessageManager.getInstance().getMessage(MessageKey.CONNECTION_NOT_CONNECTED)));
+                        , "&7Connection: ", Collections.singletonList(MessageManager.getInstance().getMessage(MessageKey.CONNECTION_NOT_CONNECTED)));
 
-        autoReconnect = (Main.getInstance().getConnectionManager().autoReconnect()) ?
+        autoReconnect = (manager.autoConnectEnabled()) ?
                 ItemCreator.editItem(
                         Items.getEnabledItem(true)
                         , "&7Auto reconnect: ", Arrays.asList(
@@ -101,7 +105,6 @@ public class ConnectionSettingsGui extends IGui {
             return;
         }
 
-
         Player p = (Player) e.getWhoClicked();
         e.setCancelled(true);
 
@@ -109,18 +112,25 @@ public class ConnectionSettingsGui extends IGui {
             return;
         }
 
+        IConnectionManager manager = MineMonitorApi.getInstance().getConnectionManager();
+
         if(e.getCurrentItem().equals(connected)) {
-            boolean connected = Main.getInstance().getConnectionManager().isConnected();
+            boolean connected = manager.isConnected();
 
             if(connected) {
-                Main.getInstance().getConnectionManager().disconnectFromServer();
-            } else {
-                Main.getInstance().getConnectionManager().connectToServer();
+                MineMonitorApi.getInstance().getConnectionManager().disconnectWithPromise().whenFinished(aBoolean ->
+                    updateInventory(e.getClickedInventory())
+                );
+
+                return;
             }
 
-            openInventory((Player) e.getWhoClicked());
+            MineMonitorApi.getInstance().getConnectionManager().connectWithPromise(Main.getInstance().getConfigManager().getConnectionConfig()).whenFinished(aBoolean ->
+                updateInventory(e.getClickedInventory())
+            );
             return;
         }
+
 
         if(e.getCurrentItem().equals(autoReconnect)) {
             Main.getInstance().getConfigManager().getConnectionConfig().autoReconnect =
@@ -148,7 +158,6 @@ public class ConnectionSettingsGui extends IGui {
             e.getWhoClicked().closeInventory();
             Main.getInstance().getConfigManager().putEditSettings(ConnectionSetting.PORT, e.getWhoClicked().getUniqueId());
             e.getWhoClicked().sendMessage(MessageManager.getInstance().getMessage(MessageKey.CONNECTION_EDIT_SETTING).replace("%setting", "port"));
-            return;
         }
 
 
