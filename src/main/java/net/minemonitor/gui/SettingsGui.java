@@ -2,7 +2,8 @@ package net.minemonitor.gui;
 
 import net.minemonitor.Main;
 import net.minemonitor.MineMonitorApi;
-import net.minemonitor.api.connection.IConnectionManager;
+import net.minemonitor.interfaces.connection.IConnectionSettings;
+import net.minemonitor.interfaces.service.IHubConnectionManager;
 import net.minemonitor.message.MessageKey;
 import net.minemonitor.plugin.Guis;
 import net.minemonitor.plugin.Permissions;
@@ -12,7 +13,6 @@ import mcapi.davidout.manager.gui.IGui;
 import mcapi.davidout.manager.language.MessageManager;
 import mcapi.davidout.utils.ItemCreator;
 
-import net.minemonitor.api.connection.config.IConnectionSettings;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -39,7 +39,7 @@ public class SettingsGui extends IGui {
 
     @Override
     public void updateInventory(Inventory inventory) {
-        IConnectionManager manager = MineMonitorApi.getInstance().getConnectionManager();
+        IHubConnectionManager manager = MineMonitorApi.getInstance().getConnectionManager();
         IConnectionSettings connectionConfig = manager.getConnectionSettings();
 
         connection = (manager.isConnected()) ?
@@ -91,7 +91,7 @@ public class SettingsGui extends IGui {
             return;
         }
 
-        IConnectionManager manager = MineMonitorApi.getInstance().getConnectionManager();
+        IHubConnectionManager manager = MineMonitorApi.getInstance().getConnectionManager();
 
         if(e.getCurrentItem().equals(pluginOptions)) {
             p.closeInventory();
@@ -111,15 +111,13 @@ public class SettingsGui extends IGui {
             }
 
             if(manager.isConnected()) {
-              MineMonitorApi.getInstance().getConnectionManager().disconnectWithPromise().whenFinished(aBoolean ->
-                  updateInventory(e.getClickedInventory())
-              );
+              MineMonitorApi.getInstance().getConnectionManager().disconnect();
+                updateInventory(e.getClickedInventory());
                 return;
             }
 
-            MineMonitorApi.getInstance().getConnectionManager().connectWithPromise(Main.getInstance().getConfigManager().getConnectionConfig()).whenFinished(aBoolean -> {
-                updateInventory(e.getClickedInventory());
-            });
+            MineMonitorApi.getInstance().getConnectionManager().connect(Main.getInstance().getConfigManager().getConnectionConfig());
+            updateInventory(e.getClickedInventory());
         }
 
     }

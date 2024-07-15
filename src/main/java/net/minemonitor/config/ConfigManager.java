@@ -4,9 +4,9 @@ import net.minemonitor.Main;
 import mcapi.davidout.manager.file.IFileManager;
 import mcapi.davidout.manager.language.MessageManager;
 import net.minemonitor.MineMonitorApi;
-import net.minemonitor.api.connection.config.ConnectionSetting;
-import net.minemonitor.api.connection.config.ConnectionSettings;
-import net.minemonitor.api.connection.config.IConnectionSettings;
+import net.minemonitor.interfaces.connection.IConnectionSettings;
+import net.minemonitor.model.connection.ConnectionSetting;
+import net.minemonitor.model.connection.ConnectionSettings;
 import org.bukkit.Bukkit;
 
 import java.io.FileNotFoundException;

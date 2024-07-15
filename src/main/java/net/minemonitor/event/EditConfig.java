@@ -2,8 +2,8 @@ package net.minemonitor.event;
 
 import net.minemonitor.Main;
 import net.minemonitor.MineMonitorApi;
-import net.minemonitor.api.connection.config.ConnectionSetting;
 import net.minemonitor.config.ConfigManager;
+import net.minemonitor.model.connection.ConnectionSetting;
 import net.minemonitor.plugin.Guis;
 import net.minemonitor.message.MessageKey;
 import mcapi.davidout.manager.language.MessageManager;

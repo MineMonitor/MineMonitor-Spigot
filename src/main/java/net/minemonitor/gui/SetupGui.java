@@ -2,7 +2,7 @@ package net.minemonitor.gui;
 
 import net.minemonitor.Main;
 import net.minemonitor.MineMonitorApi;
-import net.minemonitor.config.setup.ISetupManager;
+import net.minemonitor.interfaces.service.ISetupManager;
 import net.minemonitor.plugin.Guis;
 import net.minemonitor.plugin.Permissions;
 import net.minemonitor.message.MessageKey;

@@ -2,10 +2,10 @@ package net.minemonitor.gui;
 
 import net.minemonitor.Main;
 import net.minemonitor.MineMonitorApi;
-import net.minemonitor.api.connection.IConnectionManager;
-import net.minemonitor.api.connection.config.ConnectionSetting;
 import net.minemonitor.config.ConfigManager;
+import net.minemonitor.interfaces.service.IHubConnectionManager;
 import net.minemonitor.message.MessageKey;
+import net.minemonitor.model.connection.ConnectionSetting;
 import net.minemonitor.plugin.Permissions;
 import net.minemonitor.utils.Items;
 import mcapi.davidout.manager.gui.IGui;
@@ -44,7 +44,7 @@ public class ConnectionSettingsGui extends IGui {
 
     @Override
     public void updateInventory(Inventory inventory) {
-        IConnectionManager manager = MineMonitorApi.getInstance().getConnectionManager();
+        IHubConnectionManager manager = MineMonitorApi.getInstance().getConnectionManager();
 
         connected = (manager.isConnected()) ?
                 ItemCreator.editItem(
@@ -112,22 +112,20 @@ public class ConnectionSettingsGui extends IGui {
             return;
         }
 
-        IConnectionManager manager = MineMonitorApi.getInstance().getConnectionManager();
+        IHubConnectionManager manager = MineMonitorApi.getInstance().getConnectionManager();
 
         if(e.getCurrentItem().equals(connected)) {
             boolean connected = manager.isConnected();
 
             if(connected) {
-                MineMonitorApi.getInstance().getConnectionManager().disconnectWithPromise().whenFinished(aBoolean ->
-                    updateInventory(e.getClickedInventory())
-                );
+                MineMonitorApi.getInstance().getConnectionManager().disconnect();
+                updateInventory(e.getClickedInventory());
 
                 return;
             }
 
-            MineMonitorApi.getInstance().getConnectionManager().connectWithPromise(Main.getInstance().getConfigManager().getConnectionConfig()).whenFinished(aBoolean ->
-                updateInventory(e.getClickedInventory())
-            );
+            MineMonitorApi.getInstance().getConnectionManager().connect(Main.getInstance().getConfigManager().getConnectionConfig());
+            updateInventory(e.getClickedInventory());
             return;
         }
 

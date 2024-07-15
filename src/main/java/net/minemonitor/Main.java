@@ -1,6 +1,7 @@
 package net.minemonitor;
 
 import net.minemonitor.config.ConfigManager;
+import net.minemonitor.interfaces.connection.IConnectionSettings;
 import net.minemonitor.message.MessageKey;
 import mcapi.davidout.manager.file.IFileManager;
 import mcapi.davidout.manager.file.json.JsonFileManager;
@@ -28,7 +29,6 @@ public class Main extends JavaPlugin {
 		} catch (Exception e) {
 			Bukkit.getConsoleSender().sendMessage("Error during plugin initialization: " + e.getMessage());
 			Bukkit.getPluginManager().disablePlugin(this);
-
 		}
 	}
 
@@ -43,10 +43,14 @@ public class Main extends JavaPlugin {
 		configManager = new ConfigManager(fileManager);
 
 		if(!MineMonitorApi.getInstance().getSetupManager().isInSetup()) {
-			Bukkit.getConsoleSender().sendMessage(MessageManager.getInstance().getMessage(MessageKey.CONNECTION_TRYCONNECT).replace("%url", getInstance().getConfigManager().getConnectionConfig().getWSSUrl()));
-			MineMonitorApi.getInstance().getConnectionManager().connect(Main.getInstance().getConfigManager().getConnectionConfig());
+			IConnectionSettings settings = getInstance().getConfigManager().getConnectionConfig();
+			Bukkit.getConsoleSender().sendMessage(MessageManager.getInstance().getMessage(MessageKey.CONNECTION_TRYCONNECT).replace("%url", settings.getWSSUrl() ));
+			MineMonitorApi.getInstance().getConnectionManager().connect(settings);
 		}
 	}
+
+
+
 
 
 

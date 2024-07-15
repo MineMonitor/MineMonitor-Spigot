@@ -1,10 +1,10 @@
 package net.minemonitor;
 
-import net.minemonitor.api.request.ICallback;
 import net.minemonitor.command.CMD_MineMonitor;
 import net.minemonitor.event.EditConfig;
 import net.minemonitor.event.PlayerJoin;
-import net.minemonitor.message.MessageKey;
+import net.minemonitor.event.api.listener.ServerEvents;
+import net.minemonitor.interfaces.service.IEventManager;
 import net.minemonitor.plugin.Guis;
 import mcapi.davidout.manager.command.CommandManager;
 import mcapi.davidout.manager.file.json.JsonFileManager;
@@ -31,7 +31,7 @@ public class SetUp {
         this.registerCommands();
         this.registerListeners();
         this.registerGUI();
-        this.setConnectionCallbacks();
+        this.registerApiListeners(MineMonitorApi.getInstance().getEventManager());
     }
 
     public void registerCommands() {
@@ -72,36 +72,10 @@ public class SetUp {
         mm.setCurrentBundle("messages");
     }
 
-    public void setConnectionCallbacks() {
-        MineMonitorApi.getInstance().getConnectionManager().setConnectCallback(new ICallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if(!aBoolean) {
-                    return;
-                }
-                Bukkit.getConsoleSender().sendMessage(MessageManager.getInstance().getMessage(MessageKey.CONNECTION_CONNECTED));
-            }
-
-            @Override
-            public void onError(Exception e) {
-                Bukkit.getConsoleSender().sendMessage(MessageManager.getInstance().getMessage(MessageKey.ERROR_COULDNOTCREATECONNECTION));
-            }
-        });
-
-        MineMonitorApi.getInstance().getConnectionManager().setDisconnectCallback(new ICallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if(!aBoolean) {
-                    return;
-                }
-
-                Bukkit.getConsoleSender().sendMessage(MessageManager.getInstance().getMessage(MessageKey.CONNECTION_DISCONNECTED));
-            }
-
-            @Override
-            public void onError(Exception e) {}
-        });
+    public void registerApiListeners(IEventManager eventManager) {
+        eventManager.registerListener(new ServerEvents());
     }
+
 
 
 }

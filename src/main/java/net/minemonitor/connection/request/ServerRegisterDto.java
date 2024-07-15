@@ -1,6 +1,7 @@
 package net.minemonitor.connection.request;
 
-import net.minemonitor.api.request.DataTransferObject;
+
+import net.minemonitor.api.datatransferobject.DataTransferObject;
 
 import java.util.UUID;
 

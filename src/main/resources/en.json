@@ -30,6 +30,8 @@
     "connection.editSetting": "&7Type the new %setting, type &ccancel &7to cancel.",
     "connection.savedSetting": "%prefix &7Succesfully saved the settings.",
 
+    "connection.accessRequested":  "%prefix &7%connectionId requested access from the dashboard.",
+
     "setting.playTime": "Send the player's playtime to the dashboard",
     "setting.tps": "Send the servers current tps to the dashboard.",
     "setting.systemMonitor": "Send the servers current cpu and ram usage to the dashboard.",

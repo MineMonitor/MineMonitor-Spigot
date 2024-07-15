@@ -28,6 +28,8 @@ public enum MessageKey implements mcapi.davidout.manager.language.message.Messag
     CONNECTION_EDIT_SETTING("connection.editSetting"),
     CONNECTION_SAVED_SETTING("connection.savedSetting"),
 
+    REQUESTED_ACCESS("accessRequested"),
+
     SETTING_PLAYTIME("setting.playTime"),
     SETTING_TPS("setting.tps"),
     SETTING_SYSTEM_MONITOR("setting.systemMonitor"),

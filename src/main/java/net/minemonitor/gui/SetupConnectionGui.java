@@ -1,8 +1,8 @@
 package net.minemonitor.gui;
 
 import net.minemonitor.MineMonitorApi;
-import net.minemonitor.api.connection.config.ConnectionSetting;
-import net.minemonitor.config.setup.ISetupManager;
+import net.minemonitor.interfaces.service.ISetupManager;
+import net.minemonitor.model.connection.ConnectionSetting;
 import net.minemonitor.plugin.Guis;
 import net.minemonitor.plugin.Permissions;
 import net.minemonitor.message.MessageKey;

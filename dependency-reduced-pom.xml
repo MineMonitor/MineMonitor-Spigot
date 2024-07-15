@@ -15,13 +15,6 @@
             <goals>
               <goal>shade</goal>
             </goals>
-            <configuration>
-              <artifactSet>
-                <includes>
-                  <include>*:*:*</include>
-                </includes>
-              </artifactSet>
-            </configuration>
           </execution>
         </executions>
       </plugin>
